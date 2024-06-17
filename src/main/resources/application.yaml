@@ -1,0 +1,59 @@
+server:
+  port:8080
+topic:
+  name: order-confirmation
+
+spring:
+  kafka:
+    consumer:
+      group-id: "default"
+
+rest:
+  contract-service:
+    host: http://localhost:8071
+    methods:
+      create-contract: /createContract
+      delete-contract: /deleteContract
+    mock:
+      enabled: true
+
+  deliver-service:
+    host: http://localhost:8071
+    methods:
+      get-deliver-date: /deliver
+      cancel-delivery: /cancel
+    mock:
+      enabled: true
+
+  order-service:
+    host: http://localhost:8070
+    methods:
+      set-order-status: /order/{orderId}/status
+      set-delivery-date: /order/{orderId}/delivery
+    mock:
+      enabled: false
+
+  payment-service:
+    host: http://localhost:8071
+    methods:
+      pay-for-order: /payment
+    mock:
+      enabled: true
+
+  notify-service:
+    host: http://localhost:8071
+    methods:
+      reject-notify: /notify
+    mock:
+      enabled: true
+
+
+
+camunda:
+  bpm:
+    admin-user:
+      id: 123
+      password: 123
+    generic-properties:
+      properties:
+        enforceHistoryTimeToLive: false
